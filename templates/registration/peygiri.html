@@ -1,0 +1,60 @@
+{% extends 'registration/base.html' %}
+
+{% block title %}
+{% endblock %}
+{% block title-meta %}
+لیست تماس ها
+{% endblock %}
+{% block main %}
+
+		<div class="row">
+          <div class="col-12">
+            {% if object_list %}
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title mb-0 float-left">لیست تماس ها</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body table-responsive p-0">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>نام مراجع</th>
+                        <th>شماره تماس</th>
+                        <th>دسته‌بندی</th>
+                        <th>مشاور</th>
+                        <th>زمان پیگیری</th>
+                        <th> وضعیت پیگیری</th>
+                        <th>اکشن</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for call in object_list %}
+                        <tr>
+                          <td>{{call.name}}</td>
+                          <td>{{call.phone}}</td>
+                          <td>{{call.get_category_display}}</td>
+                          <td>
+                            {% if call.author.get_full_name %}
+                            {{call.author.get_full_name}}
+                            {% else %}
+                            {{call.author.username}}
+                            {% endif %}
+                          </td>
+                          <td>{{call.jptime}}</td>
+                          <td>{{call.get_pstatus_display}}</td>
+                          <td><a class="badge text-danger" href="{% url 'account:call-update' call.pk %}">ویرایش</a></td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+              {% else %}
+              <h3></h3>محتوایی برای نمایش وجود ندارد</h3>
+              {% endif %}
+          </div>
+        </div>
+{% endblock %}

@@ -1,0 +1,117 @@
+{% extends 'registration/base.html' %}
+
+{% block title %}
+{% endblock %}
+{% block title-meta %}
+پنل کاربری         
+{% if user.is_superuser %}
+مدیر
+{% elif user.is_supervisor %}
+سرپرست
+{% elif user.is_author %}
+مشاور
+{% endif %}
+{% endblock %}
+{% block main %}
+
+{% if user.is_superuser or user.is_supervisor %}
+  {% if data %}
+  <div class="card">
+    <div class="card-header">
+			<h3 class="card-title mb-0 float-left">مجموع تماس ها | {{timenow.1.1}} {{timenow.1.2}}</h3>
+		</div>
+    <div class="card-body table-responsive p-0">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>تعداد تماس ها</th>
+            <th>مجموع مدت تماس ها</th>
+            <th>میانگین هر تماس</th>
+            {% if user.is_superuser %}
+            <th>حقوق مشاورین</th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>{{data.0}} تماس</th>
+            <th>{{data.1}} دقیقه</th>
+            <th>{{data.2}} دقیقه</th>
+            {% if user.is_superuser %}
+            <th>{{data.3}} تومان</th>
+            {% endif %}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% endif %}
+  <div class="row">
+    <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title mb-0 float-left">وضعیت مشاورین |  {{timenow.1.1}} {{timenow.1.2}}</h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body table-responsive p-0">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>مشاور</th>
+                  <th>مجموع</th>
+                  <th>تعداد</th>
+                  <th>میانگین</th>
+                  {% if user.is_superuser %}
+                  <th>حقوق</th>
+                  {% endif %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for call in userlist %}
+                  <tr>
+                    <td>{{call.0}}</td>
+                    <td>{{call.1}} دقیقه</td>
+                    <td>{{call.2}} تماس</td>                  
+                    <td>{{call.3}} دقیقه</td>
+                    {% if user.is_superuser %}                  
+                    <td>{{call.4}} تومان</td>
+                    {% endif %}
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <!-- /.card-body -->
+        </div>
+    </div>
+  </div>
+
+{% endif %}
+{% if user.is_author %}
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title mb-0 float-left">مجموع تماس های من | {{timenow.1.1}} {{timenow.1.2}}</h3>
+  </div>
+  <div class="card-body table-responsive p-0">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>تعداد تماس ها</th>
+          <th>مجموع مدت تماس ها</th>
+          <th>میانگین هر تماس</th>
+          <th>درآمد</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>{{data.0}} تماس</th>
+          <th>{{data.1}} دقیقه</th>
+          <th>{{data.2}} دقیقه</th>
+          <th>{{data.3}} تومان</th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
