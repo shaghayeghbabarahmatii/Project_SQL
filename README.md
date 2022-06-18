@@ -1,4 +1,4 @@
-# Consulting pannel 
+# Project_SQL
 
 Professor : Dr Maryam HajEsmaeili  
 
